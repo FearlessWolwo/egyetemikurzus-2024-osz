@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GTQPL7", "GTQPL7\GTQPL7.csproj", "{35E42CAA-CAB6-45D6-9A71-6D213BC1781A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35E42CAA-CAB6-45D6-9A71-6D213BC1781A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35E42CAA-CAB6-45D6-9A71-6D213BC1781A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35E42CAA-CAB6-45D6-9A71-6D213BC1781A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35E42CAA-CAB6-45D6-9A71-6D213BC1781A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
