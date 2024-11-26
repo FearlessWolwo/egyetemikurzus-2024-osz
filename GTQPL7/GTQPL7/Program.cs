@@ -1,6 +1,4 @@
-﻿using GTQPL7.Utils.Tokenizer;
-
-namespace GTQPL7;
+﻿namespace GTQPL7;
 
 class Program
 {

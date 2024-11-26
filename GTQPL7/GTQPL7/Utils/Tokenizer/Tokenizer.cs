@@ -4,31 +4,26 @@ namespace GTQPL7.Utils.Tokenizer;
 
 public class Tokenizer
 {
-    private static readonly string INTEGER_REGEX = "(0|[1-9][0-9]+)";
-    private static readonly string REAL_REGEX = $"{INTEGER_REGEX}[.,][0-9]+";
-    private static readonly string COMPLEX_REGEX = $"{REAL_REGEX}i(?!nv\\()";
-    private List<TokenDefinition> _tokensDefinitions;
-
-    public Tokenizer()
-    {
-        _tokensDefinitions =
-        [
-            new TokenDefinition("^\\(", TokenType.Operator),
-            new TokenDefinition("^\\)", TokenType.Operator),
-            new TokenDefinition("^\\+", TokenType.Operator),
-            new TokenDefinition("^-", TokenType.Operator),
-            new TokenDefinition("^\\*", TokenType.Operator),
-            new TokenDefinition("^inv", TokenType.Operator),
-            new TokenDefinition("^trans", TokenType.Operator),
-            new TokenDefinition("^det", TokenType.Operator),
-            new TokenDefinition("^htrans", TokenType.Operator),
-            new TokenDefinition($"^{COMPLEX_REGEX}", TokenType.Value),
-            new TokenDefinition($"^{REAL_REGEX}", TokenType.Value),
-            new TokenDefinition($"^{INTEGER_REGEX}", TokenType.Value),
-            new TokenDefinition("^[A-Z]", TokenType.Value),
-            new TokenDefinition("^[a-z]", TokenType.Value)
-        ];
-    }
+    private const string IntegerRegex = "(0|[1-9][0-9]*)";
+    private const string RealRegex = $"{IntegerRegex}[.,][0-9]+";
+    private const string ComplexRegex = $"{RealRegex}i(?!nv\\()";
+    private readonly List<TokenDefinition> _tokensDefinitions =
+    [
+        new("^\\(", TokenType.Operator),
+        new("^\\)", TokenType.Operator),
+        new("^\\+", TokenType.Operator),
+        new("^-", TokenType.Operator),
+        new("^\\*", TokenType.Operator),
+        new("^inv", TokenType.Operator),
+        new("^trans", TokenType.Operator),
+        new("^det", TokenType.Operator),
+        new("^htrans", TokenType.Operator),
+        new($"^{ComplexRegex}", TokenType.Value),
+        new($"^{RealRegex}", TokenType.Value),
+        new($"^{IntegerRegex}", TokenType.Value),
+        new("^[A-Z]", TokenType.Value),
+        new("^[a-z]", TokenType.Value)
+    ];
 
     public List<DslToken> Tokenize(string text)
     {
@@ -51,7 +46,7 @@ public class Tokenizer
                 }
                 else
                 {
-                    throw new TokenizerException($"{remainingText} couldn't be tokenized.");
+                    throw new TokenizerException($"\"{remainingText}\" could not be tokenized.");
                 }
             }
         }
