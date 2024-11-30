@@ -4,25 +4,25 @@ namespace GTQPL7.Utils.Tokenizer;
 
 public class Tokenizer
 {
-    private const string IntegerRegex = "(0|[1-9][0-9]*)";
-    private const string RealRegex = $"{IntegerRegex}[.,][0-9]+";
-    private const string ComplexRegex = $"{RealRegex}i(?!nv\\()";
+    private const string IntegerRegex = "0|[1-9][0-9]*";
+    private const string RealRegex = $"{IntegerRegex}[.][0-9]+";
+    private const string ComplexRegex = $"\\<-?({IntegerRegex}|{RealRegex});-?({IntegerRegex}|{RealRegex})\\>";
     private readonly List<TokenDefinition> _tokensDefinitions =
     [
-        new("^\\(", TokenType.Operator),
-        new("^\\)", TokenType.Operator),
-        new("^\\+", TokenType.Operator),
-        new("^-", TokenType.Operator),
-        new("^\\*", TokenType.Operator),
-        new("^inv", TokenType.Operator),
-        new("^trans", TokenType.Operator),
-        new("^det", TokenType.Operator),
-        new("^htrans", TokenType.Operator),
-        new($"^{ComplexRegex}", TokenType.Value),
-        new($"^{RealRegex}", TokenType.Value),
-        new($"^{IntegerRegex}", TokenType.Value),
-        new("^[A-Z]", TokenType.Value),
-        new("^[a-z]", TokenType.Value)
+        new("^\\(", TokenType.OpeningBracket),
+        new("^\\)", TokenType.ClosingBracket),
+        new("^\\+", TokenType.BinaryOperator),
+        new("^-", TokenType.BinaryOperator),
+        new("^\\*", TokenType.BinaryOperator),
+        new("^inv", TokenType.UnaryOperator),
+        new("^trans", TokenType.UnaryOperator),
+        new("^det", TokenType.UnaryOperator),
+        new("^htrans", TokenType.UnaryOperator),
+        new($"^{ComplexRegex}", TokenType.ComplexValue),
+        new($"^{RealRegex}", TokenType.RealValue),
+        new($"^{IntegerRegex}", TokenType.IntegerValue),
+        new("^[A-Z]", TokenType.Matrix),
+        new("^[a-z]", TokenType.Parameter)
     ];
 
     public List<DslToken> Tokenize(string text)

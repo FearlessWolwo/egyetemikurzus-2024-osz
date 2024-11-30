@@ -2,13 +2,14 @@ using System.Numerics;
 
 namespace GTQPL7.Classes;
 
-public abstract class Operand<T> : IMathSymbol where T : INumber<T>
+public class Operand<T> : MathSymbol where T : ISignedNumber<T>
 {
-    protected Operand(T value)
+    public Operand(string identifier) : base(identifier) { }
+
+    public Operand(string identifier, T value) : base(identifier)
     {
         Value = value;
     }
-    
-    protected Operand() {}
-    public T? Value { get; }
+
+    public T? Value { get; set; }
 }

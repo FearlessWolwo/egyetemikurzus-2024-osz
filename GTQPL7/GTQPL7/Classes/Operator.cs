@@ -1,8 +1,8 @@
 namespace GTQPL7.Classes;
 
-public abstract class Operator : IMathSymbol
+public class Operator : MathSymbol
 {
-    protected Operator(int precedence)
+    public Operator(string identifier, int precedence) : base(identifier)
     {
         Precedence = precedence;
     }
