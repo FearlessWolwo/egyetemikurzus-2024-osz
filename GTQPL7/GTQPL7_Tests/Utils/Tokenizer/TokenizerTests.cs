@@ -18,7 +18,8 @@ public class TokenizerTests
     public void Tokenize_ValidTokens_ShouldReturnTokens()
     {
         const string input = "(2A + B) * inv(C)";
-        List<DslToken> expectedTokens = [
+        List<DslToken> expectedTokens =
+        [
             new(TokenType.OpeningBracket, "("),
             new(TokenType.IntegerValue, "2"),
             new(TokenType.Matrix, "A"),
@@ -50,7 +51,8 @@ public class TokenizerTests
     public void Tokenize_ComplexNumberInput_ShouldReturnComplexToken()
     {
         const string input = "<2;1>";
-        List<DslToken> expectedTokens = [
+        List<DslToken> expectedTokens =
+        [
             new(TokenType.ComplexValue, "<2;1>")
         ];
 

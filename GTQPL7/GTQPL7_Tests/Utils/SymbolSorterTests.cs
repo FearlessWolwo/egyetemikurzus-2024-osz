@@ -1,0 +1,80 @@
+using DeepEqual.Syntax;
+
+using GTQPL7.Classes;
+using GTQPL7.Utils;
+
+namespace GTQPL7_Tests.Utils;
+
+[TestFixture]
+public class SymbolSorterTests
+{
+    private SymbolSorter _symbolSorter;
+
+    [OneTimeSetUp]
+    public void Setup()
+    {
+        _symbolSorter = new SymbolSorter();
+    }
+
+    [Test]
+    public void SortTokens_ValidBrackets_ShouldReturnSortedTokens()
+    {
+        List<MathSymbol> symbols =
+        [
+            new Bracket("("),
+            new Operand<int>("a", 5),
+            new Operator("+", 1),
+            new Operand<int>("b", 10),
+            new Bracket(")"),
+            new Operator("*", 2),
+            new Operand<int>("c", 20)
+        ];
+        Queue<MathSymbol> expected = new Queue<MathSymbol>();
+        expected.Enqueue(new Operand<int>("a", 5));
+        expected.Enqueue(new Operand<int>("b", 10));
+        expected.Enqueue(new Operator("+", 1));
+        expected.Enqueue(new Operand<int>("c", 20));
+        expected.Enqueue(new Operator("*", 2));
+
+        Queue<MathSymbol> result = _symbolSorter.Sort(symbols);
+        
+        Assert.That(result.IsDeepEqual(expected));
+    }
+
+    [Test]
+    public void SortTokens_InvalidLeftBracket_ShouldThrowException()
+    {
+        List<MathSymbol> symbols =
+        [
+            new Bracket("("),
+            new Operand<int>("a", 5),
+            new Operator("+", 1),
+            new Operand<int>("b", 10),
+            new Bracket("("),
+            new Operator("*", 2),
+            new Operand<int>("c", 20)
+        ];
+        
+        Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<ArgumentException>()
+            .With.Message.EqualTo("Mismatched left bracket found"));
+    }
+    
+    [Test]
+    public void SortTokens_InvalidRightBracket_ShouldThrowException()
+    {
+        List<MathSymbol> symbols =
+        [
+            new Bracket("("),
+            new Operand<int>("a", 5),
+            new Operator("+", 1),
+            new Operand<int>("b", 10),
+            new Bracket(")"),
+            new Operator("*", 2),
+            new Operand<int>("c", 20),
+            new Bracket(")")
+        ];
+        
+        Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<ArgumentException>()
+            .With.Message.EqualTo("Mismatched right bracket found"));
+    }
+}

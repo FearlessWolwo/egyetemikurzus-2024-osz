@@ -19,7 +19,8 @@ public class TokenConverterTests
     [Test]
     public void ConvertDslTokensToMathSymbols_ValidComplexTokens_ShouldReturnMathSymbols()
     {
-        List<MathSymbol> expectedSymbols = [
+        List<MathSymbol> expectedSymbols =
+        [
             new Operand<Complex>("a", new Complex(1, 0)),
             new Operator("*", 2),
             new MatrixOperand<Complex>("A", new Matrix<Complex>(2, 2, [
@@ -29,7 +30,8 @@ public class TokenConverterTests
                 new Complex(4, -1)
             ]))
         ];
-        List<DslToken> tokens = [
+        List<DslToken> tokens =
+        [
             new DslToken(TokenType.Parameter, "a"),
             new DslToken(TokenType.BinaryOperator, "*"),
             new DslToken(TokenType.Matrix, "A")
@@ -47,7 +49,8 @@ public class TokenConverterTests
     [Test]
     public void ConvertDslTokensToMathSymbols_ValidRealTokens_ShouldReturnMathSymbols()
     {
-        List<MathSymbol> expectedSymbols = [
+        List<MathSymbol> expectedSymbols =
+        [
             new Operand<Double>("a", 0.2),
             new Operator("+", 1),
             new Operator("inv", 3),
@@ -57,7 +60,8 @@ public class TokenConverterTests
                 1.1
             ]))
         ];
-        List<DslToken> tokens = [
+        List<DslToken> tokens =
+        [
             new DslToken(TokenType.Parameter, "a"),
             new DslToken(TokenType.BinaryOperator, "+"),
             new DslToken(TokenType.UnaryOperator, "inv"),

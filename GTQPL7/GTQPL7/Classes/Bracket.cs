@@ -1,8 +1,8 @@
 namespace GTQPL7.Classes;
 
-public class Bracket : MathSymbol
+public class Bracket : Operator
 {
-    public Bracket(string identifier) : base(identifier)
+    public Bracket(string identifier) : base(identifier, 0)
     {
         IsLeftBracket = identifier == "(";
     }
