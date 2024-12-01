@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 using GTQPL7.Classes;
+using GTQPL7.Utils;
+using GTQPL7.Utils.ResultDisplayers;
 
 namespace GTQPL7;
 
@@ -11,7 +13,10 @@ class Program
 {
     private static readonly string ProjectFolder = GetSourceFilePathName();
     private static readonly Tokenizer Tokenizer = new Tokenizer();
-    private static ITokenConverter? s_tokenConverter;
+    private static ITokenConverter TokenConverter;
+    private static IResultDisplayer ResultDisplayer;
+    private static SymbolSorter SymbolSorter = new SymbolSorter();
+    private static RpnEvaluator rpnEvaluator = new RpnEvaluator();
     static void Main(string[] args)
     {
         LoadConfig();
@@ -29,7 +34,9 @@ class Program
             else
             {
                 List<DslToken> tokens = Tokenizer.Tokenize(input);
-                List<MathSymbol> mathSymbols = s_tokenConverter!.ConvertDslTokensToMathSymbols(tokens);
+                List<MathSymbol> mathSymbols = TokenConverter!.ConvertDslTokensToMathSymbols(tokens);
+                Queue<MathSymbol> reversePolishNotation = SymbolSorter.Sort(mathSymbols);
+                rpnEvaluator.Evaluate(reversePolishNotation);
             }
         }
     }
@@ -39,10 +46,15 @@ class Program
         string configFilePath = Path.Combine(ProjectFolder, "Configs/config.json");
         string json = File.ReadAllText(configFilePath);
         Dictionary<string, string>? configs = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-        s_tokenConverter = configs!["numberSet"] switch
+        TokenConverter = configs!["numberSet"] switch
         {
             "real" => new TokenConverter(),
-            _ => throw new Exception($"Unknown number set: {configs["numberSet"]}")
+            _ => throw new ArgumentException($"Unknown number set: {configs["numberSet"]}")
+        };
+        ResultDisplayer = configs!["result"] switch
+        {
+            "console" => new ConsoleDisplayer(),
+            _ => throw new IOException($"Save to file not yet implemented")
         };
     }
 

@@ -5,7 +5,7 @@ namespace GTQPL7.Utils.Tokenizer;
 public class Tokenizer
 {
     private const string IntegerRegex = "0|[1-9][0-9]*";
-    private const string RealRegex = $"({IntegerRegex}|{IntegerRegex}[.][0-9]+)";
+    private const string RealRegex = $"-?({IntegerRegex}|{IntegerRegex}[.][0-9]+)";
     private readonly List<TokenDefinition> _tokensDefinitions =
     [
         new("^\\(", TokenType.OpeningBracket),

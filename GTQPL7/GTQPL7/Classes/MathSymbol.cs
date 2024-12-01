@@ -8,4 +8,9 @@ public abstract class MathSymbol
     }
     
     public string Identifier { get; }
+
+    public override string ToString()
+    {
+        return Identifier;
+    }
 }

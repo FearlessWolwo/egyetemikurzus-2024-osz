@@ -2,6 +2,7 @@ using DeepEqual.Syntax;
 
 using GTQPL7.Classes;
 using GTQPL7.Utils;
+using GTQPL7.Utils.Interactors;
 using GTQPL7.Utils.TokenConverter;
 using GTQPL7.Utils.Tokenizer;
 

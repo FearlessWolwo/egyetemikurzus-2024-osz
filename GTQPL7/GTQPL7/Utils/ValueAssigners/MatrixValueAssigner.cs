@@ -1,9 +1,9 @@
 using System.Globalization;
-using System.Numerics;
 
 using GTQPL7.Classes;
+using GTQPL7.Utils.Interactors;
 
-namespace GTQPL7.Utils;
+namespace GTQPL7.Utils.ValueAssigners;
 
 public class MatrixValueAssigner
 {

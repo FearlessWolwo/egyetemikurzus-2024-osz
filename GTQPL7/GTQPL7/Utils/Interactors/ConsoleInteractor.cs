@@ -1,4 +1,4 @@
-namespace GTQPL7.Utils;
+namespace GTQPL7.Utils.Interactors;
 
 public class ConsoleInteractor : IInteractor
 {

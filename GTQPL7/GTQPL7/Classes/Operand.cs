@@ -1,8 +1,6 @@
-using System.Numerics;
-
 namespace GTQPL7.Classes;
 
-public class Operand : MathSymbol
+public class Operand : MathSymbol, IOperand
 {
     public Operand(string identifier) : base(identifier) { }
 
@@ -11,5 +9,10 @@ public class Operand : MathSymbol
         Value = value;
     }
 
-    public double? Value { get; set; }
+    public double Value { get; set; }
+
+    public string GetValueAsString()
+    {
+        return Value.ToString();
+    }
 }

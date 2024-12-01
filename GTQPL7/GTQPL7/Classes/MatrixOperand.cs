@@ -1,8 +1,6 @@
-using System.Numerics;
-
 namespace GTQPL7.Classes;
 
-public class MatrixOperand : MathSymbol
+public class MatrixOperand : MathSymbol, IOperand
 {
     public MatrixOperand(string identifier) : base(identifier) { }
 
@@ -11,5 +9,7 @@ public class MatrixOperand : MathSymbol
         Value = value;
     }
 
-    public Matrix? Value { get; set; }
+    public Matrix Value { get; set; }
+    
+    public string GetValueAsString() { return Value.ToString(); }
 }
