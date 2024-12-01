@@ -22,18 +22,18 @@ public class SymbolSorterTests
         List<MathSymbol> symbols =
         [
             new Bracket("("),
-            new Operand<int>("a", 5),
+            new Operand("a", 5),
             new Operator("+", 1),
-            new Operand<int>("b", 10),
+            new Operand("b", 10),
             new Bracket(")"),
             new Operator("*", 2),
-            new Operand<int>("c", 20)
+            new Operand("c", 20)
         ];
         Queue<MathSymbol> expected = new Queue<MathSymbol>();
-        expected.Enqueue(new Operand<int>("a", 5));
-        expected.Enqueue(new Operand<int>("b", 10));
+        expected.Enqueue(new Operand("a", 5));
+        expected.Enqueue(new Operand("b", 10));
         expected.Enqueue(new Operator("+", 1));
-        expected.Enqueue(new Operand<int>("c", 20));
+        expected.Enqueue(new Operand("c", 20));
         expected.Enqueue(new Operator("*", 2));
 
         Queue<MathSymbol> result = _symbolSorter.Sort(symbols);
@@ -47,12 +47,12 @@ public class SymbolSorterTests
         List<MathSymbol> symbols =
         [
             new Bracket("("),
-            new Operand<int>("a", 5),
+            new Operand("a", 5),
             new Operator("+", 1),
-            new Operand<int>("b", 10),
+            new Operand("b", 10),
             new Bracket("("),
             new Operator("*", 2),
-            new Operand<int>("c", 20)
+            new Operand("c", 20)
         ];
         
         Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<ArgumentException>()
@@ -65,12 +65,12 @@ public class SymbolSorterTests
         List<MathSymbol> symbols =
         [
             new Bracket("("),
-            new Operand<int>("a", 5),
+            new Operand("a", 5),
             new Operator("+", 1),
-            new Operand<int>("b", 10),
+            new Operand("b", 10),
             new Bracket(")"),
             new Operator("*", 2),
-            new Operand<int>("c", 20),
+            new Operand("c", 20),
             new Bracket(")")
         ];
         

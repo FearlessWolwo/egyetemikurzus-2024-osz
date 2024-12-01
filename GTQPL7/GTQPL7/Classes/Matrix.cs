@@ -2,9 +2,9 @@ using System.Numerics;
 
 namespace GTQPL7.Classes;
 
-public class Matrix<T> where T : ISignedNumber<T>
+public class Matrix
 {
-    public Matrix(int rows, int columns, T[] values)
+    public Matrix(int rows, int columns, double[] values)
     {
         if (values.Length != rows * columns)
         {
@@ -12,10 +12,10 @@ public class Matrix<T> where T : ISignedNumber<T>
         }
         RowCount = rows;
         ColumnCount = columns;
-        Values = new T[rows][];
+        Values = new double[rows][];
         for (int i = 0; i < Values.Length; i++)
         {
-            Values[i] = new T[columns];
+            Values[i] = new double[columns];
             for (int j = 0; j < Values[i].Length; j++)
             {
                 Values[i][j] = values[i * columns + j];
@@ -25,5 +25,5 @@ public class Matrix<T> where T : ISignedNumber<T>
     
     public int RowCount { get; }
     public int ColumnCount { get; }
-    public T[][] Values { get; }
+    public double[][] Values { get; }
 }

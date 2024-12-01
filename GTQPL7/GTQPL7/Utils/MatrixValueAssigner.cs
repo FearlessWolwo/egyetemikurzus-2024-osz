@@ -5,7 +5,7 @@ using GTQPL7.Classes;
 
 namespace GTQPL7.Utils;
 
-public class MatrixValueAssigner<T> where T : ISignedNumber<T>
+public class MatrixValueAssigner
 {
     public MatrixValueAssigner(IInteractor interactor)
     {
@@ -14,9 +14,9 @@ public class MatrixValueAssigner<T> where T : ISignedNumber<T>
     
     public IInteractor Interactor { get; set; }
     
-    public void AssignValue(MatrixOperand<T> matrixOperand)
+    public void AssignValue(MatrixOperand matrixOperand)
     {
-        List<T> values = new List<T>();
+        List<double> values = new List<double>();
 
         string? line = Interactor.GetInput($"Please enter the dimensions of {matrixOperand.Identifier}");
         string[] dimensions = line!.Split(" ");
@@ -27,9 +27,9 @@ public class MatrixValueAssigner<T> where T : ISignedNumber<T>
         {
             line = Interactor.GetInput();
             string[] stringValues = line!.Split(" ");
-            values.AddRange(stringValues.Select(stringValue => T.Parse(stringValue.AsSpan(), new NumberFormatInfo() { NumberDecimalSeparator = "." })));
+            values.AddRange(stringValues.Select(stringValue => Double.Parse(stringValue.AsSpan(), new NumberFormatInfo() { NumberDecimalSeparator = "." })));
         }
         
-        matrixOperand.Value = new Matrix<T>(rows, columns, values.ToArray());
+        matrixOperand.Value = new Matrix(rows, columns, values.ToArray());
     }
 }

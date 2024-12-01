@@ -6,9 +6,7 @@ public enum TokenType
     BinaryOperator,
     OpeningBracket,
     ClosingBracket,
-    IntegerValue,
-    RealValue,
-    ComplexValue,
+    Value,
     Matrix,
     Parameter,
     Error

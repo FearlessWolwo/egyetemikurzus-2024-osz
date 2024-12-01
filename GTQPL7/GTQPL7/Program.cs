@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.Numerics;
-
-using GTQPL7.Utils.TokenConverter;
+﻿using GTQPL7.Utils.TokenConverter;
 using GTQPL7.Utils.Tokenizer;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
@@ -44,9 +41,7 @@ class Program
         Dictionary<string, string>? configs = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         s_tokenConverter = configs!["numberSet"] switch
         {
-            "int" => new TokenConverter<int>(),
-            "real" => new TokenConverter<double>(),
-            "complex" => new TokenConverter<Complex>(),
+            "real" => new TokenConverter(),
             _ => throw new Exception($"Unknown number set: {configs["numberSet"]}")
         };
     }

@@ -5,8 +5,7 @@ namespace GTQPL7.Utils.Tokenizer;
 public class Tokenizer
 {
     private const string IntegerRegex = "0|[1-9][0-9]*";
-    private const string RealRegex = $"{IntegerRegex}[.][0-9]+";
-    private const string ComplexRegex = $"\\<-?({IntegerRegex}|{RealRegex});-?({IntegerRegex}|{RealRegex})\\>";
+    private const string RealRegex = $"({IntegerRegex}|{IntegerRegex}[.][0-9]+)";
     private readonly List<TokenDefinition> _tokensDefinitions =
     [
         new("^\\(", TokenType.OpeningBracket),
@@ -17,10 +16,7 @@ public class Tokenizer
         new("^inv", TokenType.UnaryOperator),
         new("^trans", TokenType.UnaryOperator),
         new("^det", TokenType.UnaryOperator),
-        new("^htrans", TokenType.UnaryOperator),
-        new($"^{ComplexRegex}", TokenType.ComplexValue),
-        new($"^{RealRegex}", TokenType.RealValue),
-        new($"^{IntegerRegex}", TokenType.IntegerValue),
+        new($"^{RealRegex}", TokenType.Value),
         new("^[A-Z]", TokenType.Matrix),
         new("^[a-z]", TokenType.Parameter)
     ];

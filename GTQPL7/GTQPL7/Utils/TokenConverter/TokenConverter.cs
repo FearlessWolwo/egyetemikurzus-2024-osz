@@ -6,11 +6,11 @@ using GTQPL7.Utils.Tokenizer;
 
 namespace GTQPL7.Utils.TokenConverter;
 
-public class TokenConverter<T> : ITokenConverter where T : ISignedNumber<T>
+public class TokenConverter : ITokenConverter
 {
     private IInteractor _interactor;
-    private readonly ValueAssigner<T> _valueAssigner;
-    private readonly MatrixValueAssigner<T> _matrixValueAssigner;
+    private readonly ValueAssigner _valueAssigner;
+    private readonly MatrixValueAssigner _matrixValueAssigner;
     private readonly Dictionary<string, int> _binaryOperatorPrecedences = new Dictionary<string, int>()
     {
         { "+", 1 },
@@ -23,8 +23,8 @@ public class TokenConverter<T> : ITokenConverter where T : ISignedNumber<T>
     private TokenConverter(IInteractor interactor)
     {
         _interactor = interactor;
-        _valueAssigner = new ValueAssigner<T>(interactor);
-        _matrixValueAssigner = new MatrixValueAssigner<T>(interactor);
+        _valueAssigner = new ValueAssigner(interactor);
+        _matrixValueAssigner = new MatrixValueAssigner(interactor);
     }
 
     public IInteractor Interactor
@@ -55,23 +55,16 @@ public class TokenConverter<T> : ITokenConverter where T : ISignedNumber<T>
                 case TokenType.UnaryOperator:
                     mathSymbols.Add(new Operator(token.Value, 3));
                     break;
-                case TokenType.IntegerValue:
-                    mathSymbols.Add(new Operand<int>(token.Value, int.Parse(token.Value)));
-                    break;
-                case TokenType.RealValue:
-                    mathSymbols.Add(new Operand<double>(token.Value, Double.Parse(token.Value)));
-                    break;
-                case TokenType.ComplexValue:
-                    mathSymbols.Add(new Operand<Complex>(token.Value,
-                        Complex.Parse(token.Value, new NumberFormatInfo() { NumberDecimalSeparator = "." })));
+                case TokenType.Value:
+                    mathSymbols.Add(new Operand(token.Value, Double.Parse(token.Value)));
                     break;
                 case TokenType.Parameter:
-                    Operand<T> operand = new Operand<T>(token.Value);
+                    Operand operand = new Operand(token.Value);
                     _valueAssigner.AssignValue(operand);
                     mathSymbols.Add(operand);
                     break;
                 case TokenType.Matrix:
-                    MatrixOperand<T> matrix = new MatrixOperand<T>(token.Value);
+                    MatrixOperand matrix = new MatrixOperand(token.Value);
                     _matrixValueAssigner.AssignValue(matrix);
                     mathSymbols.Add(matrix);
                     break;

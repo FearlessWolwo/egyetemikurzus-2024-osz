@@ -21,7 +21,7 @@ public class TokenizerTests
         List<DslToken> expectedTokens =
         [
             new(TokenType.OpeningBracket, "("),
-            new(TokenType.IntegerValue, "2"),
+            new(TokenType.Value, "2"),
             new(TokenType.Matrix, "A"),
             new(TokenType.BinaryOperator, "+"),
             new(TokenType.Matrix, "B"),
@@ -45,19 +45,5 @@ public class TokenizerTests
         
         Assert.That(() => _tokenizer.Tokenize(input), Throws.TypeOf<TokenizerException>()
             .With.Message.EqualTo("\"= x\" could not be tokenized."));
-    }
-    
-    [Test]
-    public void Tokenize_ComplexNumberInput_ShouldReturnComplexToken()
-    {
-        const string input = "<2;1>";
-        List<DslToken> expectedTokens =
-        [
-            new(TokenType.ComplexValue, "<2;1>")
-        ];
-
-        List<DslToken> tokens = _tokenizer.Tokenize(input);
-        
-        Assert.That(expectedTokens.IsDeepEqual(tokens));
     }
 }
