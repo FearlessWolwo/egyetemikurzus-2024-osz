@@ -23,8 +23,8 @@ class Program
 
     private static string helpString = """
                                        .help - opens this menu.
-                                       .inputfile [filepath] - evaluates the input file. The first line must contain the expression.
-                                       .outputfile [filepath] - redirect the output to the file.
+                                       .inputfile [filepath] - evaluates the input file. Use absolute path. The first line of the file must contain the expression.
+                                       .outputfile [filepath] - redirect the output to the file. Use absolute path.
                                        .console - display the output on the console. (default)
                                        .help eq - lists the available operations.
                                        .exit - exits the program.
@@ -46,7 +46,7 @@ class Program
                                                uppercase letters are matrices (Ex. B)
                                                
                                                Separate operators and variables by spaces (expect brackets).
-                                               Putting - directly before a scalar results in a negative value and not a subtraction.
+                                               Putting "-" directly before a scalar results in a negative value and not a subtraction.
                                                After inputting an expression you will be asked to define the variables.
                                                For scalar values, input a number.
                                                For matrices input it's dimensions separated by space and for each subsequent row input {column} scalars separated by space.
@@ -83,17 +83,17 @@ class Program
                 string[] param = input.Split(" ");
                 try
                 {
-                    string[] fileContents = File.ReadAllLines(param[1]);
+                    string[] fileContents = File.ReadAllLines(Path.GetFullPath(param[1]));
                     IInteractor interactor = TokenConverter.Interactor;
                     TokenConverter.Interactor = new FileInteractor(fileContents);
                     Execute(fileContents[0]);
                     TokenConverter.Interactor = interactor;
                 }
-                catch (UnauthorizedAccessException e)
+                catch (UnauthorizedAccessException)
                 {
                     Console.WriteLine("Can't open file");
                 }
-                catch (FileNotFoundException e)
+                catch (FileNotFoundException)
                 {
                     Console.WriteLine("No such file");
                 }
@@ -124,36 +124,41 @@ class Program
     {
         string configFilePath = Path.Combine(ProjectFolder, "Configs/config.json");
         string json = "";
-        
+
         try
-        { 
+        {
             json = File.ReadAllText(configFilePath);
         }
-        catch (UnauthorizedAccessException e)
+        catch (UnauthorizedAccessException)
         {
             Console.WriteLine("Could not open config file. No access.");
+            Environment.Exit(0);
         }
-        catch (FileNotFoundException e)
+        catch (FileNotFoundException)
         {
             Console.WriteLine("Could not open config file. File not found.");
+            Environment.Exit(0);
         }
-        finally
+        catch (Exception)
         {
+            Console.WriteLine("Unexpected error occured.");
             Environment.Exit(0);
         }
         
         Dictionary<string, string>? configs = null;
-        
+
         try
         {
             configs = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
         }
-        catch (JsonException e)
+        catch (JsonException)
         {
             Console.WriteLine("Error parsing config file.");
+            Environment.Exit(0);
         }
-        finally
+        catch (Exception)
         {
+            Console.WriteLine("Unexpected error occured.");
             Environment.Exit(0);
         }
 
@@ -202,7 +207,7 @@ class Program
             Console.WriteLine(e.Message);
             return;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Console.WriteLine("Unexpected exception occured.");
             Environment.Exit(0);
@@ -219,7 +224,7 @@ class Program
             Console.WriteLine(e.Message);
             return;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Console.WriteLine("Unexpected exception occured.");
             Environment.Exit(0);
@@ -229,14 +234,14 @@ class Program
 
         try
         {
-            SymbolSorter.Sort(mathSymbols);
+            reversePolishNotation = SymbolSorter.Sort(mathSymbols);
         }
         catch (SymbolSorterException e)
         {
             Console.WriteLine(e.Message);
             return;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Console.WriteLine("Unexpected exception occured.");
             Environment.Exit(0);
@@ -250,15 +255,15 @@ class Program
         {
             Console.WriteLine(e.Message);
         }
-        catch (FileNotFoundException e)
+        catch (FileNotFoundException)
         {
             Console.WriteLine("Input file does not exist.");
         }
-        catch (AccessViolationException e)
+        catch (AccessViolationException)
         {
             Console.WriteLine("Could not access the input file.");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Console.WriteLine("Unexpected exception occured.");
             Environment.Exit(0);

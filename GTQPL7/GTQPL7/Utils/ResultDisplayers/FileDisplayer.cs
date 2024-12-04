@@ -11,7 +11,7 @@ public class FileDisplayer : IResultDisplayer
     
     public void DisplayResult(string message)
     {
-        File.WriteAllText(_fileName, message);
+        File.WriteAllText(Path.GetFullPath(_fileName), message);
         Console.WriteLine($"Output written to {_fileName}.");
     }
 }
