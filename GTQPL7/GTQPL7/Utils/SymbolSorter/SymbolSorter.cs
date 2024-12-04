@@ -1,8 +1,9 @@
 using GTQPL7.Classes;
+using GTQPL7.Exceptions;
 
-namespace GTQPL7.Utils;
+namespace GTQPL7.Utils.SymbolSorter;
 
-public class SymbolSorter
+public class SymbolSorter : ISymbolSorter
 {
     private const string LeftBracketError = "Mismatched left bracket found";
     private const string RightBracketError = "Mismatched right bracket found";
@@ -26,7 +27,7 @@ public class SymbolSorter
 
                         if (operatorStack.Count == 0)
                         {
-                            throw new ArgumentException(RightBracketError);
+                            throw new SymbolSorterException(RightBracketError);
                         }
                         operatorStack.Pop();
                         break;
@@ -50,7 +51,7 @@ public class SymbolSorter
         {
             if (op is Bracket)
             {
-                throw new ArgumentException(LeftBracketError);
+                throw new SymbolSorterException(LeftBracketError);
             }
             outputQueue.Enqueue(op);
         }

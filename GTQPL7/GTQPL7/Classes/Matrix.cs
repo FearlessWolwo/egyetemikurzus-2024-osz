@@ -186,11 +186,11 @@ public record Matrix
                 return new GaussEliminationResult(null, 0);
             }
 
-            // swap selected row with rowth row in both this and inverse
+            // swap selected row with rowth row
             for (int col = 0; col < ColumnCount; col++)
             {
                 (copied[selectedRow][col], copied[row][col]) = (copied[row][col], copied[selectedRow][col]);
-                (inverse[selectedRow][col], inverse[row][col]) = (inverse[row][col], inverse[selectedRow][col]);
+                (inverse[col][selectedRow], inverse[col][row]) = (inverse[col][row], inverse[col][selectedRow]);
             }
             
             // if rows were different negate determinant
@@ -204,7 +204,7 @@ public record Matrix
             for (int col = row + 1; col < ColumnCount; col++)
             {
                 copied[row][col] /= copied[row][row];
-                inverse[row][col] /= inverse[row][col];
+                inverse[row][col] /= inverse[row][row];
             }
 
             for (int otherRow = 0; otherRow < RowCount; otherRow++)
@@ -213,19 +213,13 @@ public record Matrix
                 {
                     continue;
                 }
-                if (!copied[otherRow][row].Equals(0))
+                for (int col = row + 1; col < RowCount; col++)
                 {
-                    for (int col = row + 1; col < RowCount; col++)
-                    {
-                        copied[otherRow][col] -= copied[row][col] * copied[otherRow][row];
-                    }
+                    copied[otherRow][col] -= copied[row][col] * copied[otherRow][row];
                 }
-                if (!inverse[otherRow][row].Equals(0))
+                for (int col = row + 1; col < RowCount; col++)
                 {
-                    for (int col = row + 1; col < RowCount; col++)
-                    {
-                        inverse[otherRow][col] -= inverse[row][col] * inverse[otherRow][row];
-                    }
+                    inverse[otherRow][col] -= inverse[row][col] * inverse[otherRow][row];
                 }
             }
         }
@@ -266,7 +260,7 @@ public record Matrix
         {
             for (int j = 0; j < ColumnCount; j++)
             {
-                result.Append(this[i, j]).Append(" ");
+                result.Append(this[i, j]).Append(' ');
             }
             result.AppendLine();
         }

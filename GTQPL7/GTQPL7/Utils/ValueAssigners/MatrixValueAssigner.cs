@@ -5,7 +5,7 @@ using GTQPL7.Utils.Interactors;
 
 namespace GTQPL7.Utils.ValueAssigners;
 
-public class MatrixValueAssigner
+public class MatrixValueAssigner : IValueAssigner<MatrixOperand>
 {
     public MatrixValueAssigner(IInteractor interactor)
     {

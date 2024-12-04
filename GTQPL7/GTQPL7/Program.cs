@@ -4,7 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 using GTQPL7.Classes;
-using GTQPL7.Utils;
+using GTQPL7.Utils.SymbolSorter;
+using GTQPL7.Utils.RpnEvaluator;
 using GTQPL7.Utils.ResultDisplayers;
 
 namespace GTQPL7;
@@ -15,8 +16,8 @@ class Program
     private static readonly Tokenizer Tokenizer = new Tokenizer();
     private static ITokenConverter TokenConverter;
     private static IResultDisplayer ResultDisplayer;
-    private static SymbolSorter SymbolSorter = new SymbolSorter();
-    private static RpnEvaluator rpnEvaluator = new RpnEvaluator();
+    private static readonly SymbolSorter SymbolSorter = new SymbolSorter();
+    private static readonly RpnEvaluator RpnEvaluator = new RpnEvaluator();
     static void Main(string[] args)
     {
         LoadConfig();
@@ -36,7 +37,7 @@ class Program
                 List<DslToken> tokens = Tokenizer.Tokenize(input);
                 List<MathSymbol> mathSymbols = TokenConverter!.ConvertDslTokensToMathSymbols(tokens);
                 Queue<MathSymbol> reversePolishNotation = SymbolSorter.Sort(mathSymbols);
-                rpnEvaluator.Evaluate(reversePolishNotation);
+                RpnEvaluator.Evaluate(reversePolishNotation);
             }
         }
     }

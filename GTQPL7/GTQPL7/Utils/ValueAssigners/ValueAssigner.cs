@@ -5,7 +5,7 @@ using GTQPL7.Utils.Interactors;
 
 namespace GTQPL7.Utils.ValueAssigners;
 
-public class ValueAssigner
+public class ValueAssigner : IValueAssigner<Operand>
 {
     public ValueAssigner(IInteractor interactor)
     {

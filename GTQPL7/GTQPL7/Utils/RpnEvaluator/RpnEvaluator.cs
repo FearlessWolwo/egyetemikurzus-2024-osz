@@ -1,9 +1,10 @@
 using GTQPL7.Classes;
+using GTQPL7.Exceptions;
 using GTQPL7.Utils.ResultDisplayers;
 
-namespace GTQPL7.Utils;
+namespace GTQPL7.Utils.RpnEvaluator;
 
-public class RpnEvaluator
+public class RpnEvaluator : IRpnEvaluator
 {
     private Stack<MathSymbol> _operandStack;
     private IResultDisplayer _resultDisplayer;
@@ -20,6 +21,7 @@ public class RpnEvaluator
 
     public void Evaluate(Queue<MathSymbol> reversePolishNotation)
     {
+        _operandStack.Clear();
         while (reversePolishNotation.Count > 0)
         {
             if (reversePolishNotation.Peek() is IOperand)
@@ -33,6 +35,10 @@ public class RpnEvaluator
             switch (reversePolishNotation.Peek().Identifier)
             {
                 case "+":
+                    if (_operandStack.Count < 2)
+                    {
+                        throw new RpnEvaluatorException("Too few operands for addition");
+                    }
                     rhs = _operandStack.Pop();
                     lhs = _operandStack.Pop();
                     switch (lhs)
@@ -44,10 +50,14 @@ public class RpnEvaluator
                             _operandStack.Push(new MatrixOperand("X", lhsMatrixOperand.Value + rhsMatrixOperand.Value));
                             break;
                         default:
-                            throw new ArithmeticException($"Could not add {lhs} to {rhs}");
+                            throw new RpnEvaluatorException($"Could not add {lhs.GetType()} to {rhs.GetType()}");
                     }
                     break;
                 case "-":
+                    if (_operandStack.Count < 2)
+                    {
+                        throw new RpnEvaluatorException("Too few operands for subtraction");
+                    }
                     rhs = _operandStack.Pop();
                     lhs = _operandStack.Pop();
                     switch (lhs)
@@ -59,10 +69,14 @@ public class RpnEvaluator
                             _operandStack.Push(new MatrixOperand("X", lhsMatrixOperand.Value - rhsMatrixOperand.Value));
                             break;
                         default:
-                            throw new ArithmeticException($"Could not subtract {lhs} from {rhs}");
+                            throw new RpnEvaluatorException($"Could not subtract {lhs.GetType()} from {rhs.GetType()}");
                     }
                     break;
                 case "*":
+                    if (_operandStack.Count < 2)
+                    {
+                        throw new RpnEvaluatorException("Too few operands for multiplication");
+                    }
                     rhs = _operandStack.Pop();
                     lhs = _operandStack.Pop();
                     switch (lhs)
@@ -74,10 +88,14 @@ public class RpnEvaluator
                             _operandStack.Push(new MatrixOperand("X", lhsMatrixOperand.Value * rhsMatrixOperand.Value));
                             break;
                         default:
-                            throw new ArithmeticException($"Could not multiply {lhs} by {rhs}");
+                            throw new RpnEvaluatorException($"Could not multiply {rhs.GetType()} by {lhs.GetType()}");
                     }
                     break;
                 case "inv":
+                    if (_operandStack.Count < 1)
+                    {
+                        throw new RpnEvaluatorException("Too few operands for inversion");
+                    }
                     lhs = _operandStack.Pop();
                     switch (lhs)
                     {
@@ -85,10 +103,14 @@ public class RpnEvaluator
                             _operandStack.Push(new MatrixOperand("X", lhsMatrixOperand.Value.Invert()));
                             break;
                         default:
-                            throw new ArithmeticException($"Could not invert {lhs}");
+                            throw new RpnEvaluatorException($"Could not invert {lhs.GetType()}");
                     }
                     break;
                 case "trans":
+                    if (_operandStack.Count < 1)
+                    {
+                        throw new RpnEvaluatorException("Too few operands for transposition");
+                    }
                     lhs = _operandStack.Pop();
                     switch (lhs)
                     {
@@ -96,11 +118,15 @@ public class RpnEvaluator
                             _operandStack.Push(new MatrixOperand("X", lhsMatrixOperand.Value.Transpose()));
                             break;
                         default:
-                            throw new ArithmeticException($"Could not transpose {lhs}");
+                            throw new RpnEvaluatorException($"Could not transpose {lhs.GetType()}");
                     }
 
                     break;
                 case "det":
+                    if (_operandStack.Count < 1)
+                    {
+                        throw new RpnEvaluatorException("Too few operands for calculating determinant");
+                    }
                     lhs = _operandStack.Pop();
                     switch (lhs)
                     {
@@ -108,11 +134,11 @@ public class RpnEvaluator
                             _operandStack.Push(new Operand("x", lhsMatrixOperand.Value.Determinant()));
                             break;
                         default:
-                            throw new ArithmeticException($"Could not calculate determinant of {lhs}");
+                            throw new RpnEvaluatorException($"Could not calculate determinant of {lhs.GetType()}");
                     }
                     break;
                 default:
-                    throw new ArgumentException($"Unknown operator: {reversePolishNotation.Peek().Identifier}");
+                    throw new RpnEvaluatorException($"Unknown operator: {reversePolishNotation.Peek().GetType()}");
             }
 
             reversePolishNotation.Dequeue();
@@ -120,9 +146,8 @@ public class RpnEvaluator
 
         if (_operandStack.Count != 1 || _operandStack.Peek() is not IOperand operand)
         {
-            throw new ArithmeticException($"The given expression could not be evaluated");
+            throw new RpnEvaluatorException("The given expression could not be evaluated");
         }
         _resultDisplayer.DisplayResult("Result is:" + System.Environment.NewLine + operand.GetValueAsString());
-        _operandStack.Clear();
     }
 }

@@ -1,19 +1,20 @@
 using DeepEqual.Syntax;
 
 using GTQPL7.Classes;
+using GTQPL7.Exceptions;
 using GTQPL7.Utils;
 
-namespace GTQPL7_Tests.Utils;
+namespace GTQPL7_Tests.Utils.SymbolSorter;
 
 [TestFixture]
 public class SymbolSorterTests
 {
-    private SymbolSorter _symbolSorter;
+    private GTQPL7.Utils.SymbolSorter.SymbolSorter _symbolSorter;
 
     [OneTimeSetUp]
     public void Setup()
     {
-        _symbolSorter = new SymbolSorter();
+        _symbolSorter = new GTQPL7.Utils.SymbolSorter.SymbolSorter();
     }
 
     [Test]
@@ -55,7 +56,7 @@ public class SymbolSorterTests
             new Operand("c", 20)
         ];
         
-        Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<ArgumentException>()
+        Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<SymbolSorterException>()
             .With.Message.EqualTo("Mismatched left bracket found"));
     }
     
@@ -74,7 +75,7 @@ public class SymbolSorterTests
             new Bracket(")")
         ];
         
-        Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<ArgumentException>()
+        Assert.That(() => _symbolSorter.Sort(symbols), Throws.TypeOf<SymbolSorterException>()
             .With.Message.EqualTo("Mismatched right bracket found"));
     }
 }

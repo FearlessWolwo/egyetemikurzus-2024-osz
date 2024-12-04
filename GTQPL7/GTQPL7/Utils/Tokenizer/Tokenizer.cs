@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace GTQPL7.Utils.Tokenizer;
 
-public class Tokenizer
+public class Tokenizer : ITokenizer
 {
     private const string IntegerRegex = "0|[1-9][0-9]*";
     private const string RealRegex = $"-?({IntegerRegex}|{IntegerRegex}[.][0-9]+)";

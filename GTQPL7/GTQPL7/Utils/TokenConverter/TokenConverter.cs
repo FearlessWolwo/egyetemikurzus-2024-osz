@@ -68,7 +68,7 @@ public class TokenConverter : ITokenConverter
                     mathSymbols.Add(matrix);
                     break;
                 default:
-                    throw new Exception($"Unexpected token type {token.TokenType}");
+                    throw new TokenConverterException($"Unexpected token type {token.TokenType}");
             }
         }
         return mathSymbols;
