@@ -17,7 +17,11 @@ public class RpnEvaluator : IRpnEvaluator
         _resultDisplayer = resultDisplayer;
     }
     
-    public IResultDisplayer ResultDisplayer => _resultDisplayer;
+    public IResultDisplayer ResultDisplayer
+    {
+        get => _resultDisplayer;
+        set => _resultDisplayer = value;
+    }
 
     public void Evaluate(Queue<MathSymbol> reversePolishNotation)
     {
