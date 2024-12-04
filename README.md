@@ -1,38 +1,15 @@
-# SZTE egyetemi kurzus, 2024 Őszi félév házi feleadat repó
+# Matrix Calculator
 
-Git gyorstalpaló: https://github.com/CsharptutorialHungary/egyetemikurzus-2024-osz/tree/main/.git-tutorial
+A simple matrix calculator proof of concept.
 
-## Technikai követelmények
+## Notes regarding the project
 
-* .NET 8
-* Konzolos alkalmazás
+- My plans weren't detailed enough and the project turned out worse than I was expecting. It even has less functionality than what was planned.
+- The Tokenizer's main idea came from Jack Vanlightly's amazing blog post called Creating a Simple Tokenizer (Check it out!). The implementation was done in C# (unfortunately for me) and therefore most of the source code stuck in my head and my implementation turned out about 95% equivalent.
+- The code quality is not so great...
 
-## Értékelés
+## Future plans
 
-Az értékelés utolsó órán védéssel fog zárulni.
-
-* **Két ember dolgozhat egy alkalmazáson, de akkor a Unit tesztek megléte kötelező és nem opcionális!**
-* **Kódot fogom nézni, nem a program működését főként**, de ez nem azt jelenti, hogy a kódnak nem kell fordulnia! (Unit teszt ha van, akkor az bukhat, de indokot várok ebben az esetben, hogy miért bukik a teszt.)
-* **A karakterek ingyen vannak.** Legyen normálisan elnevezve minden. Nem akarok látni `asd`, `a`, `b`, `c` meg semmit mondó metódus, tulajdonság és változó neveket.
-* **Folyamatos munkát várok**, nem egy giga maratonban kommitolást => másolást feltételezek
-
-## Konzultáció
-
-* Óra után személyesen
-* Github issue formában itt.
-
-## Beadás menete
-
-1. Regisztrálsz github-ra, ha még nem tetted volna meg.
-2. Ezen repó fork gombjával készítesz egy fork-ot erről a repóról.
-3. Issue formában vedd fel a házi feladatod témáját. 
-4. A forkot repót checkoutolod, csinálsz egy mappát, ami a kódod tartalmazza. A mappa neve a neptun kódod legyen. Ha ketten dolgoztok, akkor a kettőtök neve `_` karakterrel elválasztva.
-5. Elkészítitek a beadandót, folyamatos commitokkal.
-6. A végén, amikor be akarjátok adni, akkor készítetek egy pull request-et erre a repóra.
-7. A pull request legyen az issue-hoz csatolva.
-
-## Ajánlott olvasmányok
-
-* [Git tutorial](https://docs.github.com/en/get-started/quickstart)
-* [C# tutorial](https://csharptutorial.hu/)
-* [Ultimate .NET cheat sheet](https://webmaster442.github.io/ultimatedotnetcheatsheet/)
+- Fix code quality or rewrite the project from 0 with more detailed plans.
+- Implementation with Abstract Syntax Tree instead of Reverse Polish Notation.
+- Maybe take it a step further and implement a scripting language
